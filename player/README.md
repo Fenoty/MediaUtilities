@@ -2,7 +2,7 @@
 
 Native Windows video player built with **WinUI 3** (.NET 8) and **LibVLC**. Supports MP4, MKV, AVI, WebM, MOV, FLV, WMV, M2TS, ASF, RMVB, MXF, VOB, HEVC, AV1, and other containers LibVLC can decode — no codec packs required. **Images are not supported** (JPG, PNG, GIF, WebP, HEIC, etc.).
 
-**Version:** defined in [`Directory.Build.props`](Directory.Build.props) (currently **1.0.0**). Shown in the window title.
+**Version:** defined in [`Directory.Build.props`](Directory.Build.props) (currently **1.0.1**). Shown in the window title.
 
 ## Download a ready-made build
 

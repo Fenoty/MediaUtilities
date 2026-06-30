@@ -78,4 +78,16 @@
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
+
+  <!-- dotnet publish omits WinUI MRT artifacts; unpackaged apps need them next to the exe. -->
+  <Target Name="CopyWinUiPublishResources" AfterTargets="Publish">
+    <ItemGroup>
+      <_WinUiPublishXbf Include="$(OutputPath)*.xbf" />
+      <_WinUiPublishPri Include="$(OutputPath)$(AssemblyName).pri" />
+      <_WinUiPublishAssets Include="$(OutputPath)Assets\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_WinUiPublishXbf)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_WinUiPublishPri)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" Condition="Exists('$(OutputPath)$(AssemblyName).pri')" />
+    <Copy SourceFiles="@(_WinUiPublishAssets)" DestinationFolder="$(PublishDir)Assets\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>
