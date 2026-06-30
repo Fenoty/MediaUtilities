@@ -4,7 +4,7 @@ namespace MediaPlayer.Helpers;
 
 public static class FilePickerService
 {
-    private const string AppUserModelId = "MediaPlayer.FPlayer";
+    private const string AppUserModelId = AppVersion.AppUserModelId;
 
     private const int OfnAllowMultiSelect = 0x00000200;
     private const int OfnPathMustExist = 0x00000800;

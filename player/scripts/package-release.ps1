@@ -28,7 +28,7 @@ if ($propsContent -match '<VersionPrefix>\s*([^<]+)\s*</VersionPrefix>') {
 
 Write-Host "Packaging FPlayer $version ($Configuration)..."
 
-Get-Process -Name 'MediaPlayer' -ErrorAction SilentlyContinue | Stop-Process -Force
+Get-Process -Name 'FPlayer','MediaPlayer' -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 500
 
 $publishDir = Join-Path $artifactsRoot "FPlayer-$version-win-x64"
@@ -72,7 +72,7 @@ FPlayer $version (Windows x64)
 ==============================
 
 1. Extract all files to one folder.
-2. Run MediaPlayer.exe.
+2. Run FPlayer.exe.
 
 Requirements: Windows 10 19041+ / Windows 11.
 $runtimeNote

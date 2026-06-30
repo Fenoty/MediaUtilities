@@ -2,7 +2,7 @@
 
 Native Windows video player built with **WinUI 3** (.NET 8) and **LibVLC**. Supports MP4, MKV, AVI, WebM, MOV, FLV, WMV, M2TS, ASF, RMVB, MXF, VOB, HEVC, AV1, and other containers LibVLC can decode — no codec packs required. **Images are not supported** (JPG, PNG, GIF, WebP, HEIC, etc.).
 
-**Version:** defined in [`Directory.Build.props`](Directory.Build.props) (currently **1.0.1**). Shown in the window title.
+**Version:** defined in [`Directory.Build.props`](Directory.Build.props) (currently **1.0.2**). Shown in the window title.
 
 ## Download a ready-made build
 
@@ -12,9 +12,11 @@ You do not need to build from source — download the ZIP from [GitHub Releases]
 |------|--------|
 | 1 | [Releases](https://github.com/Fenoty/MediaUtilities/releases) → latest `player-v*` release |
 | 2 | Download **`FPlayer-1.0.0-win-x64.zip`** (name depends on version) |
-| 3 | Extract and run **`MediaPlayer.exe`** |
+| 3 | Extract and run **`FPlayer.exe`** |
 
 The build is self-contained: **no .NET Runtime install required**. Requires Windows 10 19041+ / Windows 11.
+
+On first launch, FPlayer registers supported video and audio file types with Windows so it appears in **Settings → Apps → Default apps** (video/music player). After updating or moving the install folder, open FPlayer once, then re-select it as the default player if needed.
 
 ## Requirements (development)
 
@@ -44,7 +46,7 @@ cd player
 dotnet build MediaPlayer.sln -c Release -p:Platform=x64
 ```
 
-Debug executable: `MediaPlayer/bin/Debug/net8.0-windows10.0.19041.0/win-x64/MediaPlayer.exe`
+Debug executable: `MediaPlayer/bin/Debug/net8.0-windows10.0.19041.0/win-x64/FPlayer.exe`
 
 ### Release ZIP (local)
 

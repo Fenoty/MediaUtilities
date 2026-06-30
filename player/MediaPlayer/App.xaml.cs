@@ -16,9 +16,25 @@ public partial class App : Application
     public static nint WindowHandle =>
         WinRT.Interop.WindowNative.GetWindowHandle(Window);
 
+    static App()
+    {
+        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
+        {
+            if (args.ExceptionObject is Exception ex)
+                LogCrash(ex);
+        };
+
+        TaskScheduler.UnobservedTaskException += (_, args) =>
+        {
+            LogCrash(args.Exception);
+            args.SetObserved();
+        };
+    }
+
     public App()
     {
         LibVlcBootstrap.EnsureInitialized();
+        ShellIntegrationService.EnsureRegistered();
         Helpers.FilePickerService.EnsureInitialized();
         UnhandledException += OnUnhandledException;
         InitializeComponent();
@@ -47,26 +63,27 @@ public partial class App : Application
         }
     }
 
-    static App()
+    protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
-        {
-            if (args.ExceptionObject is Exception ex)
-                LogCrash(ex);
-        };
+        LaunchActivationService.RegisterCurrentInstance();
+        if (!await LaunchActivationService.TryBecomeMainInstanceAsync())
+            return;
 
-        TaskScheduler.UnobservedTaskException += (_, args) =>
-        {
-            LogCrash(args.Exception);
-            args.SetObserved();
-        };
-    }
-
-    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-    {
         DispatcherQueue = DispatcherQueue.GetForCurrentThread();
         SynchronizationContext.SetSynchronizationContext(new DispatcherQueueSynchronizationContext(DispatcherQueue));
+
+        LaunchActivationService.FilesActivated += OnFilesActivated;
+
         Window = new MainWindow();
         Window.Activate();
+    }
+
+    private void OnFilesActivated(IReadOnlyList<string> files)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            if (Window is MainWindow mainWindow)
+                mainWindow.OpenFiles(files);
+        });
     }
 }

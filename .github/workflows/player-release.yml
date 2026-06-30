@@ -51,7 +51,7 @@ jobs:
 
             ### Download
             - **ZIP:** `FPlayer-${{ steps.version.outputs.value }}-win-x64.zip` (attached to this release)
-            - Extract the archive and run `MediaPlayer.exe`
+            - Extract the archive and run `FPlayer.exe`
 
             ### Requirements
             - Windows 10 19041+ / Windows 11

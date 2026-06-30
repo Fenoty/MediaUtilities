@@ -16,8 +16,8 @@
   <mp:PhoneIdentity PhoneProductId="76D36E37-84D3-4ACA-810E-88FD05D3C938" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>MediaPlayer</DisplayName>
-    <PublisherDisplayName>AppPublisher</PublisherDisplayName>
+    <DisplayName>FPlayer</DisplayName>
+    <PublisherDisplayName>MediaUtilities</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -35,8 +35,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MediaPlayer"
-        Description="MediaPlayer"
+        DisplayName="FPlayer"
+        Description="FPlayer media player"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">

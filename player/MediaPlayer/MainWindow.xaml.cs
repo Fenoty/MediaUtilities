@@ -65,6 +65,15 @@ public sealed partial class MainWindow : Window
 
         Activated += MainWindow_Activated;
         Closed += MainWindow_Closed;
+
+        var launchFiles = LaunchActivationService.ConsumePendingFiles();
+        if (launchFiles.Count > 0)
+            ViewModel.OpenFiles(launchFiles);
+    }
+
+    public void OpenFiles(IReadOnlyList<string> files)
+    {
+        ViewModel.OpenFiles(files);
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

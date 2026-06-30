@@ -5,6 +5,8 @@ namespace MediaPlayer.Helpers;
 public static class AppVersion
 {
     public const string ProductName = "FPlayer";
+    public const string CompanyName = "MediaUtilities";
+    public const string AppUserModelId = "FPlayer.App";
 
     public static string Version { get; } = ReadVersion();
 
