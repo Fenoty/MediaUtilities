@@ -22,8 +22,8 @@ public static class FilePickerService
     public static Task<IReadOnlyList<string>> PickMediaAsync(bool multiple = true, string? title = null)
     {
         var dialogTitle = title ?? (multiple
-            ? "Выберите один или несколько медиафайлов"
-            : "Открыть медиафайл");
+            ? "Select one or more media files"
+            : "Open media file");
 
         return UiDispatcher.InvokeAsync(() =>
         {
@@ -43,7 +43,7 @@ public static class FilePickerService
     {
         try
         {
-            var paths = PickPathsWin32("Загрузить субтитры", multiple: false);
+            var paths = PickPathsWin32("Load subtitles", multiple: false);
             return Task.FromResult(paths.Count > 0 ? paths[0] : null);
         }
         catch (Exception ex)
@@ -145,7 +145,7 @@ public static class FilePickerService
     }
 
     private static string BuildWin32Filter(string label)
-        => $"{label}\0*.*\0Все файлы (*.*)\0*.*\0\0";
+        => $"{label}\0*.*\0All files (*.*)\0*.*\0\0";
 
     [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     private static extern int SetCurrentProcessExplicitAppUserModelID(string appId);

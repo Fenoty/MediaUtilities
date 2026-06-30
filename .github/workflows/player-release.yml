@@ -47,17 +47,17 @@ jobs:
           body: |
             ## FPlayer ${{ steps.version.outputs.value }}
 
-            Портативная сборка для Windows x64 (автономная, .NET не требуется).
+            Portable Windows x64 build (self-contained, .NET not required).
 
-            ### Скачать
-            - **ZIP:** `FPlayer-${{ steps.version.outputs.value }}-win-x64.zip` (во вложениях релиза)
-            - Распакуйте архив и запустите `MediaPlayer.exe`
+            ### Download
+            - **ZIP:** `FPlayer-${{ steps.version.outputs.value }}-win-x64.zip` (attached to this release)
+            - Extract the archive and run `MediaPlayer.exe`
 
-            ### Требования
+            ### Requirements
             - Windows 10 19041+ / Windows 11
 
-            ### Изменения
-            См. коммиты в репозитории с момента предыдущего тега `player-v*`.
+            ### Changes
+            See commits since the previous `player-v*` tag.
           files: |
             player/artifacts/FPlayer-${{ steps.version.outputs.value }}-win-x64.zip
           draft: false

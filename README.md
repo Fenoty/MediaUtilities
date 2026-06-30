@@ -1,18 +1,18 @@
 # MediaUtilities
 
-Набор утилит для работы с медиа.
+A collection of media utilities.
 
-## Проекты
+## Projects
 
-- **[player/](player/)** — нативный Windows-видеоплеер **FPlayer** (WinUI 3 + LibVLC). Подробности: [player/README.md](player/README.md).
+- **[player/](player/)** — native Windows video player **FPlayer** (WinUI 3 + LibVLC). Details: [player/README.md](player/README.md).
 
-## Скачать FPlayer (Windows)
+## Download FPlayer (Windows)
 
-Готовая portable-сборка публикуется в [GitHub Releases](https://github.com/Fenoty/MediaUtilities/releases):
+Portable builds are published on [GitHub Releases](https://github.com/Fenoty/MediaUtilities/releases):
 
-1. Откройте страницу **Releases** репозитория.
-2. Выберите последний релиз с тегом `player-v*` (например `player-v1.0.0`).
-3. Скачайте **`FPlayer-<версия>-win-x64.zip`** из раздела Assets.
-4. Распакуйте архив и запустите `MediaPlayer.exe`.
+1. Open the repository **Releases** page.
+2. Pick the latest release tagged `player-v*` (for example `player-v1.0.0`).
+3. Download **`FPlayer-<version>-win-x64.zip`** from Assets.
+4. Extract the archive and run `MediaPlayer.exe`.
 
-Текущая версия задаётся в [`player/Directory.Build.props`](player/Directory.Build.props).
+The current version is defined in [`player/Directory.Build.props`](player/Directory.Build.props).

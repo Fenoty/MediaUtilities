@@ -103,9 +103,9 @@ public partial class MainViewModel : ObservableObject, IDisposable
 
     public static IReadOnlyList<VideoFitOption> VideoFitOptions { get; } =
     [
-        new(VideoFitMode.Fit, "Вписать в экран"),
-        new(VideoFitMode.Fill, "Заполнить экран"),
-        new(VideoFitMode.Stretch, "Растянуть на весь экран")
+        new(VideoFitMode.Fit, "Fit to screen"),
+        new(VideoFitMode.Fill, "Fill screen"),
+        new(VideoFitMode.Stretch, "Stretch to full screen")
     ];
 
     public event Action? VideoFitChanged;
@@ -130,10 +130,10 @@ public partial class MainViewModel : ObservableObject, IDisposable
 
     public string RepeatModeTooltip => RepeatMode switch
     {
-        RepeatMode.Off => "Без повторения",
-        RepeatMode.All => "Повторять плейлист",
-        RepeatMode.One => "Повторять текущий файл",
-        _ => "Режим повторения"
+        RepeatMode.Off => "No repeat",
+        RepeatMode.All => "Repeat playlist",
+        RepeatMode.One => "Repeat current file",
+        _ => "Repeat mode"
     };
 
     public int VolumeSliderValue
@@ -203,7 +203,7 @@ public partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowError?.Invoke($"Ошибка инициализации видео: {ex.Message}");
+            ShowError?.Invoke($"Video initialization error: {ex.Message}");
         }
     }
 
@@ -281,7 +281,7 @@ public partial class MainViewModel : ObservableObject, IDisposable
     {
         if (string.IsNullOrEmpty(path) || !File.Exists(path))
         {
-            ShowError?.Invoke("Файл не найден.");
+            ShowError?.Invoke("File not found.");
             RecentFiles.Remove(path!);
             return;
         }
@@ -386,7 +386,7 @@ public partial class MainViewModel : ObservableObject, IDisposable
         try
         {
             var files = await FilePickerService.PickMediaAsync(
-                title: "Выберите один или несколько медиафайлов");
+                title: "Select one or more media files");
             var list = files.Where(p => File.Exists(p) && MediaFileHelper.IsMediaFile(p)).ToList();
             if (list.Count > 0)
                 _playlist.AddFiles(list);
@@ -520,7 +520,7 @@ public partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowError?.Invoke($"Ошибка воспроизведения: {ex.Message}");
+            ShowError?.Invoke($"Playback error: {ex.Message}");
         }
     }
 
@@ -528,7 +528,7 @@ public partial class MainViewModel : ObservableObject, IDisposable
     {
         if (!_playback.IsInitialized)
         {
-            ShowError?.Invoke("Видеоповерхность ещё не готова.");
+            ShowError?.Invoke("Video surface is not ready yet.");
             return;
         }
 
@@ -540,7 +540,7 @@ public partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowError?.Invoke($"Ошибка воспроизведения: {ex.Message}");
+            ShowError?.Invoke($"Playback error: {ex.Message}");
         }
     }
 

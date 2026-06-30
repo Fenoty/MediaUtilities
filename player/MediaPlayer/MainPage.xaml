@@ -148,77 +148,77 @@
 
                 </MenuBar.Resources>
 
-                <MenuBarItem Title="Файл">
+                <MenuBarItem Title="File">
 
-                    <MenuFlyoutItem Text="Открыть..." Click="OpenFileMenuItem_Click"/>
+                    <MenuFlyoutItem Text="Open..." Click="OpenFileMenuItem_Click"/>
 
-                    <MenuFlyoutItem Text="Добавить в плейлист..." Click="AddToPlaylistMenuItem_Click"/>
+                    <MenuFlyoutItem Text="Add to playlist..." Click="AddToPlaylistMenuItem_Click"/>
 
                     <MenuFlyoutSeparator/>
 
-                    <MenuFlyoutItem Text="Выход" Click="ExitMenuItem_Click"/>
+                    <MenuFlyoutItem Text="Exit" Click="ExitMenuItem_Click"/>
 
                 </MenuBarItem>
 
-                <MenuBarItem Title="Воспроизведение">
+                <MenuBarItem Title="Playback">
 
                     <MenuFlyoutItem Text="Play / Pause" Command="{x:Bind ViewModel.PlayPauseCommand}"/>
 
-                    <MenuFlyoutItem Text="Назад 10 сек" Command="{x:Bind ViewModel.SeekBackward10Command}"/>
+                    <MenuFlyoutItem Text="Back 10 sec" Command="{x:Bind ViewModel.SeekBackward10Command}"/>
 
-                    <MenuFlyoutItem Text="Вперёд 10 сек" Command="{x:Bind ViewModel.SeekForward10Command}"/>
+                    <MenuFlyoutItem Text="Forward 10 sec" Command="{x:Bind ViewModel.SeekForward10Command}"/>
 
-                    <MenuFlyoutItem Text="Предыдущий" Command="{x:Bind ViewModel.PreviousCommand}"/>
+                    <MenuFlyoutItem Text="Previous" Command="{x:Bind ViewModel.PreviousCommand}"/>
 
-                    <MenuFlyoutItem Text="Следующий" Command="{x:Bind ViewModel.NextCommand}"/>
+                    <MenuFlyoutItem Text="Next" Command="{x:Bind ViewModel.NextCommand}"/>
 
                 </MenuBarItem>
 
-                <MenuBarItem x:Name="MenuViewItem" Title="Вид">
+                <MenuBarItem x:Name="MenuViewItem" Title="View">
 
-                    <MenuFlyoutItem Text="Плейлист" Command="{x:Bind ViewModel.TogglePlaylistCommand}"/>
+                    <MenuFlyoutItem Text="Playlist" Command="{x:Bind ViewModel.TogglePlaylistCommand}"/>
 
-                    <MenuFlyoutItem Text="Полный экран" Command="{x:Bind ViewModel.ToggleFullscreenCommand}"/>
+                    <MenuFlyoutItem Text="Full screen" Command="{x:Bind ViewModel.ToggleFullscreenCommand}"/>
 
                     <MenuFlyoutSeparator/>
 
-                    <ToggleMenuFlyoutItem Text="Фиксировать размер окна под видео"
+                    <ToggleMenuFlyoutItem Text="Lock window size to video aspect"
                                           IsEnabled="{x:Bind ViewModel.IsVideoMode, Mode=OneWay}"
                                           IsChecked="{x:Bind ViewModel.LockWindowToVideoAspect, Mode=TwoWay}"/>
 
                     <MenuFlyoutSeparator/>
 
-                    <MenuFlyoutSubItem x:Name="VideoFitSubMenu" Text="Размещение видео"/>
+                    <MenuFlyoutSubItem x:Name="VideoFitSubMenu" Text="Video layout"/>
 
                 </MenuBarItem>
 
-                <MenuBarItem x:Name="MenuSubtitlesItem" Title="Субтитры">
+                <MenuBarItem x:Name="MenuSubtitlesItem" Title="Subtitles">
 
-                    <MenuFlyoutItem Text="Загрузить..." Command="{x:Bind ViewModel.LoadSubtitlesCommand}"/>
+                    <MenuFlyoutItem Text="Load..." Command="{x:Bind ViewModel.LoadSubtitlesCommand}"/>
 
-                    <MenuFlyoutItem Text="Вкл / Выкл" Command="{x:Bind ViewModel.ToggleSubtitlesCommand}"/>
+                    <MenuFlyoutItem Text="On / Off" Command="{x:Bind ViewModel.ToggleSubtitlesCommand}"/>
 
                 </MenuBarItem>
 
                 <MenuBarItem x:Name="MenuOverflowItem" Title="⋯" Visibility="Collapsed">
 
-                    <MenuFlyoutItem Text="Плейлист" Command="{x:Bind ViewModel.TogglePlaylistCommand}"/>
+                    <MenuFlyoutItem Text="Playlist" Command="{x:Bind ViewModel.TogglePlaylistCommand}"/>
 
-                    <MenuFlyoutItem Text="Полный экран" Command="{x:Bind ViewModel.ToggleFullscreenCommand}"/>
+                    <MenuFlyoutItem Text="Full screen" Command="{x:Bind ViewModel.ToggleFullscreenCommand}"/>
 
                     <MenuFlyoutSeparator/>
 
-                    <ToggleMenuFlyoutItem Text="Фиксировать размер окна под видео"
+                    <ToggleMenuFlyoutItem Text="Lock window size to video aspect"
                                           IsEnabled="{x:Bind ViewModel.IsVideoMode, Mode=OneWay}"
                                           IsChecked="{x:Bind ViewModel.LockWindowToVideoAspect, Mode=TwoWay}"/>
 
                     <MenuFlyoutSeparator/>
 
-                    <MenuFlyoutSubItem x:Name="VideoFitOverflowSubMenu" Text="Размещение видео"/>
+                    <MenuFlyoutSubItem x:Name="VideoFitOverflowSubMenu" Text="Video layout"/>
 
-                    <MenuFlyoutItem Text="Загрузить субтитры..." Command="{x:Bind ViewModel.LoadSubtitlesCommand}"/>
+                    <MenuFlyoutItem Text="Load subtitles..." Command="{x:Bind ViewModel.LoadSubtitlesCommand}"/>
 
-                    <MenuFlyoutItem Text="Субтитры вкл / выкл" Command="{x:Bind ViewModel.ToggleSubtitlesCommand}"/>
+                    <MenuFlyoutItem Text="Subtitles on / off" Command="{x:Bind ViewModel.ToggleSubtitlesCommand}"/>
 
                 </MenuBarItem>
 
@@ -311,21 +311,21 @@
                         </Grid>
 
                         <TextBlock x:Name="EmptyStateTitle"
-                                   Text="Кликните для воспроизведения"
+                                   Text="Click to play"
                                    FontSize="20"
                                    FontWeight="SemiBold"
                                    Foreground="{StaticResource SubtleTextBrush}"
                                    TextAlignment="Center"/>
 
                         <TextBlock x:Name="EmptyStateSubtitle"
-                                   Text="или перетащите видео- или аудиофайл в окно плеера"
+                                   Text="or drag a video or audio file into the player window"
                                    FontSize="14"
                                    Foreground="{StaticResource MutedTextBrush}"
                                    TextAlignment="Center"
                                    TextWrapping="WrapWholeWords"/>
 
                         <TextBlock x:Name="EmptyStateHint"
-                                   Text="Ctrl+O — открыть файл"
+                                   Text="Ctrl+O — open file"
                                    FontSize="12"
                                    Foreground="{StaticResource MutedTextBrush}"
                                    TextAlignment="Center"
@@ -376,14 +376,14 @@
                 <Grid Padding="16,12" BorderBrush="{StaticResource PlaylistPanelBorderBrush}" BorderThickness="0,0,0,1">
 
                     <TextBlock x:Name="PlaylistTitleText"
-                               Text="Плейлист" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                               Text="Playlist" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
 
                         <controls:HandButton x:Name="PlaylistAddButton"
                                 Content="+"
                                 Style="{StaticResource PlaylistAddButtonStyle}"
-                                ToolTipService.ToolTip="Добавить медиафайлы (можно несколько)"
+                                ToolTipService.ToolTip="Add media files (multiple allowed)"
                                 Click="AddToPlaylistButton_Click"/>
 
                         <controls:HandButton Content="✕" Style="{StaticResource TransportButtonStyle}"
@@ -576,7 +576,7 @@
                     <controls:PlaybackRateSelector x:Name="PlaybackRateControl"
                                                    Rates="{x:Bind ViewModel.PlaybackRateOptions, Mode=OneWay}"
                                                    SelectedRate="{x:Bind ViewModel.SelectedPlaybackRate, Mode=TwoWay}"
-                                                   ToolTipService.ToolTip="Скорость воспроизведения"/>
+                                                   ToolTipService.ToolTip="Playback speed"/>
                     <controls:HandButton x:Name="BtnCc"
                             Style="{StaticResource TransportButtonStyle}"
                             VerticalAlignment="Center"
@@ -593,7 +593,7 @@
                     <controls:HandButton x:Name="BtnVideoFit"
                             Style="{StaticResource TransportButtonStyle}"
                             VerticalAlignment="Center"
-                            ToolTipService.ToolTip="Размещение видео в окне"
+                            ToolTipService.ToolTip="Video layout in window"
                             Visibility="{x:Bind ViewModel.IsVideoMode, Mode=OneWay, Converter={StaticResource BoolToVis}}">
                         <FontIcon Glyph="&#xE8BC;" FontSize="14"/>
                     </controls:HandButton>
@@ -613,7 +613,7 @@
                             Style="{StaticResource TransportButtonStyle}"
                             VerticalAlignment="Center"
                             Command="{x:Bind ViewModel.TogglePlaylistCommand}"
-                            ToolTipService.ToolTip="Плейлист"
+                            ToolTipService.ToolTip="Playlist"
                             Visibility="{x:Bind ViewModel.IsFullscreen, Mode=OneWay, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
                         <FontIcon Glyph="&#xE8FD;" FontSize="12"/>
                     </controls:HandButton>
@@ -628,14 +628,14 @@
                     <controls:HandButton x:Name="BtnPrev"
                             Style="{StaticResource TransportButtonStyle}"
                             Command="{x:Bind ViewModel.PreviousCommand}"
-                            ToolTipService.ToolTip="Предыдущий (P)">
+                            ToolTipService.ToolTip="Previous (P)">
                         <FontIcon Glyph="&#xE892;" FontSize="14"/>
                     </controls:HandButton>
                     <controls:HandButton x:Name="BtnSeekBack"
                             Style="{StaticResource SkipButtonStyle}"
                             Content="−10"
                             Command="{x:Bind ViewModel.SeekBackward10Command}"
-                            ToolTipService.ToolTip="Назад 10 сек"/>
+                            ToolTipService.ToolTip="Back 10 sec"/>
                     <controls:HandButton x:Name="PlayButton"
                             Style="{StaticResource PlayButtonStyle}"
                             Command="{x:Bind ViewModel.PlayPauseCommand}"
@@ -653,11 +653,11 @@
                             Style="{StaticResource SkipButtonStyle}"
                             Content="+10"
                             Command="{x:Bind ViewModel.SeekForward10Command}"
-                            ToolTipService.ToolTip="Вперёд 10 сек"/>
+                            ToolTipService.ToolTip="Forward 10 sec"/>
                     <controls:HandButton x:Name="BtnNext"
                             Style="{StaticResource TransportButtonStyle}"
                             Command="{x:Bind ViewModel.NextCommand}"
-                            ToolTipService.ToolTip="Следующий (N)">
+                            ToolTipService.ToolTip="Next (N)">
                         <FontIcon Glyph="&#xE893;" FontSize="14"/>
                     </controls:HandButton>
                 </StackPanel>

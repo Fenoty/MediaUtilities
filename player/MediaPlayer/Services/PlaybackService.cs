@@ -86,7 +86,7 @@ public class PlaybackService : IDisposable
         }
         catch (Exception ex)
         {
-            PlaybackError?.Invoke($"Не удалось инициализировать видеодвижок: {ex.Message}");
+            PlaybackError?.Invoke($"Failed to initialize video engine: {ex.Message}");
         }
     }
 
@@ -108,7 +108,7 @@ public class PlaybackService : IDisposable
     {
         if (_mediaPlayer is null)
         {
-            PlaybackError?.Invoke("Видеоповерхность ещё не готова.");
+            PlaybackError?.Invoke("Video surface is not ready yet.");
             return;
         }
 
@@ -138,7 +138,7 @@ public class PlaybackService : IDisposable
         }
         catch (Exception ex)
         {
-            PlaybackError?.Invoke($"Ошибка загрузки видео: {ex.Message}");
+            PlaybackError?.Invoke($"Video load error: {ex.Message}");
         }
     }
 
@@ -311,7 +311,7 @@ public class PlaybackService : IDisposable
 
     private void OnEncounteredError(object? sender, EventArgs e)
         => InvokeOnUi(() =>
-            PlaybackError?.Invoke("Не удалось воспроизвести файл. Файл повреждён или формат не поддерживается."));
+            PlaybackError?.Invoke("Could not play the file. It may be corrupted or the format is not supported."));
 
     private void StopInternal()
     {

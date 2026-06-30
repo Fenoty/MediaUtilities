@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 $playerRoot = Split-Path -Parent $PSScriptRoot
-$project = Join-Path $playerRoot 'MediaPlayer.WinUI\MediaPlayer.csproj'
+$project = Join-Path $playerRoot 'MediaPlayer\MediaPlayer.csproj'
 $propsFile = Join-Path $playerRoot 'Directory.Build.props'
 $artifactsRoot = Join-Path $playerRoot 'artifacts'
 

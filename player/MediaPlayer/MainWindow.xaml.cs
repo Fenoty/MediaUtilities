@@ -41,7 +41,7 @@ public sealed partial class MainWindow : Window
         {
             _ = new ContentDialog
             {
-                Title = "Ошибка",
+                Title = "Error",
                 Content = msg,
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot

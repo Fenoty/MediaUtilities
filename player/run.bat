@@ -1,6 +1,6 @@
 @echo off
 setlocal
-cd /d "%~dp0MediaPlayer.WinUI"
+cd /d "%~dp0MediaPlayer"
 
 echo Closing previous MediaPlayer instance if running...
 taskkill /IM MediaPlayer.exe /F >nul 2>&1
