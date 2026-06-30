@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Page
+
+    x:Class="MediaPlayer.MainPage"
+
+    x:Name="MainPageRoot"
+
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+    xmlns:vlc="using:LibVLCSharp.Platforms.Windows"
+
+    xmlns:vm="using:MediaPlayer.ViewModels"
+
+    xmlns:controls="using:MediaPlayer.Controls"
+
+    xmlns:helpers="using:MediaPlayer.Helpers"
+
+    Background="Transparent"
+
+    mc:Ignorable="d">
+
+
+
+    <helpers:AnimatedAppBackground x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowWidthStates">
+                <VisualState x:Name="Narrow">
+                    <VisualState.Setters>
+                        <Setter Target="ControlBarBorder.Padding" Value="8,6,8,8"/>
+                        <Setter Target="UtilsBar.Spacing" Value="2"/>
+                        <Setter Target="VolumeSlider.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlaybackRateControl.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnPrev.Visibility" Value="Visible"/>
+                        <Setter Target="BtnNext.Visibility" Value="Visible"/>
+                        <Setter Target="BtnSeekBack.Visibility" Value="Visible"/>
+                        <Setter Target="BtnSeekFwd.Visibility" Value="Visible"/>
+                        <Setter Target="BtnPlaylist.Visibility" Value="Visible"/>
+                        <Setter Target="BtnCcText.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnCcIcon.Visibility" Value="Visible"/>
+                        <Setter Target="MenuOverflowItem.Visibility" Value="Visible"/>
+                        <Setter Target="MenuViewItem.Visibility" Value="Collapsed"/>
+                        <Setter Target="MenuSubtitlesItem.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Minimum">
+                    <VisualState.Setters>
+                        <Setter Target="ControlBarBorder.Padding" Value="8,6,8,8"/>
+                        <Setter Target="UtilsBar.Spacing" Value="2"/>
+                        <Setter Target="VolumeSlider.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlaybackRateControl.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnPrev.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnNext.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnSeekBack.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnSeekFwd.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnPlaylist.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnCcText.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnCcIcon.Visibility" Value="Visible"/>
+                        <Setter Target="MenuOverflowItem.Visibility" Value="Visible"/>
+                        <Setter Target="MenuViewItem.Visibility" Value="Collapsed"/>
+                        <Setter Target="MenuSubtitlesItem.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="MenuWide">
+                    <VisualState.Setters>
+                        <Setter Target="ControlBarBorder.Padding" Value="12,8,12,10"/>
+                        <Setter Target="UtilsBar.Spacing" Value="3"/>
+                        <Setter Target="VolumeSlider.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlaybackRateControl.Visibility" Value="Visible"/>
+                        <Setter Target="BtnPrev.Visibility" Value="Visible"/>
+                        <Setter Target="BtnNext.Visibility" Value="Visible"/>
+                        <Setter Target="BtnSeekBack.Visibility" Value="Visible"/>
+                        <Setter Target="BtnSeekFwd.Visibility" Value="Visible"/>
+                        <Setter Target="BtnPlaylist.Visibility" Value="Visible"/>
+                        <Setter Target="BtnCcText.Visibility" Value="Collapsed"/>
+                        <Setter Target="BtnCcIcon.Visibility" Value="Visible"/>
+                        <Setter Target="MenuOverflowItem.Visibility" Value="Collapsed"/>
+                        <Setter Target="MenuViewItem.Visibility" Value="Visible"/>
+                        <Setter Target="MenuSubtitlesItem.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.Setters>
+                        <Setter Target="ControlBarBorder.Padding" Value="16,10,16,12"/>
+                        <Setter Target="UtilsBar.Spacing" Value="4"/>
+                        <Setter Target="VolumeSlider.Visibility" Value="Visible"/>
+                        <Setter Target="PlaybackRateControl.Visibility" Value="Visible"/>
+                        <Setter Target="BtnPrev.Visibility" Value="Visible"/>
+                        <Setter Target="BtnNext.Visibility" Value="Visible"/>
+                        <Setter Target="BtnSeekBack.Visibility" Value="Visible"/>
+                        <Setter Target="BtnSeekFwd.Visibility" Value="Visible"/>
+                        <Setter Target="BtnPlaylist.Visibility" Value="Visible"/>
+                        <Setter Target="BtnCcText.Visibility" Value="Visible"/>
+                        <Setter Target="BtnCcIcon.Visibility" Value="Collapsed"/>
+                        <Setter Target="MenuOverflowItem.Visibility" Value="Collapsed"/>
+                        <Setter Target="MenuViewItem.Visibility" Value="Visible"/>
+                        <Setter Target="MenuSubtitlesItem.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="*"/>
+
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="*"/>
+
+            <ColumnDefinition Width="Auto"/>
+
+        </Grid.ColumnDefinitions>
+
+
+
+        <Border x:Name="MenuBarBorder" Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Background="{StaticResource ChromeBrush}"
+                BorderBrush="{StaticResource PanelBorderBrush}"
+                BorderThickness="0,0,0,1">
+
+            <Grid x:Name="MenuBarContent">
+            <MenuBar x:Name="MenuBarPanel" Background="Transparent">
+
+                <MenuBar.Resources>
+
+                    <SolidColorBrush x:Key="MenuBarItemBackground" Color="Transparent"/>
+
+                    <StaticResource x:Key="MenuBarItemBackgroundPointerOver" ResourceKey="MenuBarItemHoverBrush"/>
+
+                    <StaticResource x:Key="MenuBarItemBackgroundPressed" ResourceKey="GlassPressedBrush"/>
+
+                    <StaticResource x:Key="MenuBarItemBackgroundDisabled" ResourceKey="MenuBarItemBackground"/>
+
+                </MenuBar.Resources>
+
+                <MenuBarItem Title="Файл">
+
+                    <MenuFlyoutItem Text="Открыть..." Click="OpenFileMenuItem_Click"/>
+
+                    <MenuFlyoutItem Text="Добавить в плейлист..." Click="AddToPlaylistMenuItem_Click"/>
+
+                    <MenuFlyoutSeparator/>
+
+                    <MenuFlyoutItem Text="Выход" Click="ExitMenuItem_Click"/>
+
+                </MenuBarItem>
+
+                <MenuBarItem Title="Воспроизведение">
+
+                    <MenuFlyoutItem Text="Play / Pause" Command="{x:Bind ViewModel.PlayPauseCommand}"/>
+
+                    <MenuFlyoutItem Text="Назад 10 сек" Command="{x:Bind ViewModel.SeekBackward10Command}"/>
+
+                    <MenuFlyoutItem Text="Вперёд 10 сек" Command="{x:Bind ViewModel.SeekForward10Command}"/>
+
+                    <MenuFlyoutItem Text="Предыдущий" Command="{x:Bind ViewModel.PreviousCommand}"/>
+
+                    <MenuFlyoutItem Text="Следующий" Command="{x:Bind ViewModel.NextCommand}"/>
+
+                </MenuBarItem>
+
+                <MenuBarItem x:Name="MenuViewItem" Title="Вид">
+
+                    <MenuFlyoutItem Text="Плейлист" Command="{x:Bind ViewModel.TogglePlaylistCommand}"/>
+
+                    <MenuFlyoutItem Text="Полный экран" Command="{x:Bind ViewModel.ToggleFullscreenCommand}"/>
+
+                    <MenuFlyoutSeparator/>
+
+                    <ToggleMenuFlyoutItem Text="Фиксировать размер окна под видео"
+                                          IsEnabled="{x:Bind ViewModel.IsVideoMode, Mode=OneWay}"
+                                          IsChecked="{x:Bind ViewModel.LockWindowToVideoAspect, Mode=TwoWay}"/>
+
+                    <MenuFlyoutSeparator/>
+
+                    <MenuFlyoutSubItem x:Name="VideoFitSubMenu" Text="Размещение видео"/>
+
+                </MenuBarItem>
+
+                <MenuBarItem x:Name="MenuSubtitlesItem" Title="Субтитры">
+
+                    <MenuFlyoutItem Text="Загрузить..." Command="{x:Bind ViewModel.LoadSubtitlesCommand}"/>
+
+                    <MenuFlyoutItem Text="Вкл / Выкл" Command="{x:Bind ViewModel.ToggleSubtitlesCommand}"/>
+
+                </MenuBarItem>
+
+                <MenuBarItem x:Name="MenuOverflowItem" Title="⋯" Visibility="Collapsed">
+
+                    <MenuFlyoutItem Text="Плейлист" Command="{x:Bind ViewModel.TogglePlaylistCommand}"/>
+
+                    <MenuFlyoutItem Text="Полный экран" Command="{x:Bind ViewModel.ToggleFullscreenCommand}"/>
+
+                    <MenuFlyoutSeparator/>
+
+                    <ToggleMenuFlyoutItem Text="Фиксировать размер окна под видео"
+                                          IsEnabled="{x:Bind ViewModel.IsVideoMode, Mode=OneWay}"
+                                          IsChecked="{x:Bind ViewModel.LockWindowToVideoAspect, Mode=TwoWay}"/>
+
+                    <MenuFlyoutSeparator/>
+
+                    <MenuFlyoutSubItem x:Name="VideoFitOverflowSubMenu" Text="Размещение видео"/>
+
+                    <MenuFlyoutItem Text="Загрузить субтитры..." Command="{x:Bind ViewModel.LoadSubtitlesCommand}"/>
+
+                    <MenuFlyoutItem Text="Субтитры вкл / выкл" Command="{x:Bind ViewModel.ToggleSubtitlesCommand}"/>
+
+                </MenuBarItem>
+
+            </MenuBar>
+            </Grid>
+
+        </Border>
+
+
+
+        <Grid x:Name="VideoHost" Grid.Row="1" Grid.Column="0" Background="Transparent" SizeChanged="VideoHost_SizeChanged">
+
+            <vlc:VideoView x:Name="VideoView"
+                           MediaPlayer="{x:Bind ViewModel.LibVlcMediaPlayer, Mode=OneWay}"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Visibility="{x:Bind ViewModel.IsVideoMode, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+
+            <Grid x:Name="AudioPlaybackPanel"
+                  Visibility="{x:Bind ViewModel.IsAudioMode, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Padding="48,32">
+                <StackPanel Spacing="16"
+                            MaxWidth="360"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Border CornerRadius="16"
+                            Background="#18000000"
+                            BorderBrush="#28FFFFFF"
+                            BorderThickness="1"
+                            Height="320"
+                            Width="320">
+                        <Grid>
+                            <FontIcon Glyph="&#xE8D6;"
+                                      FontSize="72"
+                                      Foreground="#33FFFFFF"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                            <Image Source="{x:Bind ViewModel.AudioArtwork, Mode=OneWay}"
+                                   Stretch="UniformToFill"/>
+                        </Grid>
+                    </Border>
+                    <TextBlock Text="{x:Bind ViewModel.AudioTitle, Mode=OneWay}"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource SubtleTextBrush}"
+                               TextAlignment="Center"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </Grid>
+
+            <Border x:Name="EmptyStateOverlay"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Visibility="Visible">
+
+                <controls:HandGrid x:Name="EmptyStateRoot"
+                      Background="Transparent"
+                      Tapped="EmptyState_Click"
+                      PointerEntered="EmptyStateRoot_PointerEntered"
+                      PointerExited="EmptyStateRoot_PointerExited">
+
+                    <StackPanel x:Name="EmptyStatePanel"
+                                Spacing="14"
+                                MaxWidth="420"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                IsHitTestVisible="False">
+
+                        <Grid x:Name="EmptyStateIconHost" Width="96" Height="96" HorizontalAlignment="Center">
+                            <Ellipse x:Name="EmptyStateGlow"
+                                     Width="96"
+                                     Height="96"
+                                     Opacity="0"
+                                     Fill="{StaticResource EmptyStateGlowBrush}"/>
+                            <Border x:Name="EmptyStateInnerCircle"
+                                    Width="72"
+                                    Height="72"
+                                    CornerRadius="36"
+                                    Background="#14FFFFFF"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"/>
+                            <FontIcon x:Name="EmptyStateIcon"
+                                      Glyph="&#xE714;"
+                                      FontSize="34"
+                                      Foreground="{StaticResource SubtleTextBrush}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <TextBlock x:Name="EmptyStateTitle"
+                                   Text="Кликните для воспроизведения"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource SubtleTextBrush}"
+                                   TextAlignment="Center"/>
+
+                        <TextBlock x:Name="EmptyStateSubtitle"
+                                   Text="или перетащите видео- или аудиофайл в окно плеера"
+                                   FontSize="14"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   TextAlignment="Center"
+                                   TextWrapping="WrapWholeWords"/>
+
+                        <TextBlock x:Name="EmptyStateHint"
+                                   Text="Ctrl+O — открыть файл"
+                                   FontSize="12"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   TextAlignment="Center"
+                                   Margin="0,4,0,0"/>
+
+                    </StackPanel>
+                </controls:HandGrid>
+
+            </Border>
+
+            <controls:HandButton x:Name="VideoClickLayer"
+                    Style="{StaticResource VideoOverlayButtonStyle}"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Canvas.ZIndex="1"
+                    Visibility="Collapsed"
+                    Click="VideoArea_Click"
+                    PointerWheelChanged="VideoArea_PointerWheelChanged"/>
+
+        </Grid>
+
+
+
+        <Border x:Name="PlaylistPanel"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                MinWidth="240"
+                MaxWidth="360"
+                Width="360"
+                Background="{StaticResource PlaylistPanelBrush}"
+                BorderBrush="{StaticResource PlaylistPanelBorderBrush}"
+                BorderThickness="1,0,0,0"
+                Visibility="{x:Bind ViewModel.IsPlaylistVisible, Mode=OneWay, Converter={StaticResource BoolToVis}}">
+
+            <Grid x:Name="PlaylistContent">
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto"/>
+
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+
+                <Grid Padding="16,12" BorderBrush="{StaticResource PlaylistPanelBorderBrush}" BorderThickness="0,0,0,1">
+
+                    <TextBlock x:Name="PlaylistTitleText"
+                               Text="Плейлист" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
+
+                        <controls:HandButton x:Name="PlaylistAddButton"
+                                Content="+"
+                                Style="{StaticResource PlaylistAddButtonStyle}"
+                                ToolTipService.ToolTip="Добавить медиафайлы (можно несколько)"
+                                Click="AddToPlaylistButton_Click"/>
+
+                        <controls:HandButton Content="✕" Style="{StaticResource TransportButtonStyle}"
+
+                                Command="{x:Bind ViewModel.TogglePlaylistCommand}"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <ScrollViewer Grid.Row="1" Padding="8" Background="Transparent">
+
+                    <ItemsRepeater x:Name="PlaylistRepeater"
+                                   ElementPrepared="PlaylistRepeater_ElementPrepared"
+                                   ItemsSource="{x:Bind ViewModel.PlaylistItems, Mode=OneWay}">
+
+                        <ItemsRepeater.Layout>
+
+                            <UniformGridLayout MinItemWidth="160" MinItemHeight="140" ItemsStretch="Fill"/>
+
+                        </ItemsRepeater.Layout>
+
+                        <ItemsRepeater.ItemTemplate>
+
+                            <DataTemplate x:DataType="vm:PlaylistItemViewModel">
+
+                                <controls:HandButton Margin="6"
+                                        Style="{StaticResource PlaylistItemButtonStyle}"
+                                        Command="{Binding ElementName=MainPageRoot, Path=ViewModel.PlayPlaylistItemCommand}"
+                                        CommandParameter="{Binding}">
+
+                                    <StackPanel>
+
+                                        <Grid Height="90" Background="#30000000">
+
+                                            <FontIcon Glyph="&#xE714;"
+                                                      FontSize="28"
+                                                      Foreground="#44FFFFFF"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+
+                                            <Image Source="{Binding Thumbnail}" Stretch="UniformToFill"/>
+
+                                            <Border Background="#AA000000"
+
+                                                    HorizontalAlignment="Right"
+
+                                                    VerticalAlignment="Bottom"
+
+                                                    Margin="6"
+
+                                                    Padding="6,2"
+
+                                                    CornerRadius="4">
+
+                                                <TextBlock Text="{Binding DurationText}" FontSize="10" Foreground="White"/>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                        <TextBlock Text="{Binding FileName}"
+
+                                                   Margin="10,8"
+
+                                                   TextTrimming="CharacterEllipsis"
+
+                                                   FontSize="12"/>
+
+                                    </StackPanel>
+
+                                </controls:HandButton>
+
+                            </DataTemplate>
+
+                        </ItemsRepeater.ItemTemplate>
+
+                    </ItemsRepeater>
+
+                </ScrollViewer>
+
+            </Grid>
+
+        </Border>
+
+
+
+        <Border x:Name="ControlBarBorder" Grid.Row="2" Grid.Column="0"
+                Background="{StaticResource ControlBarBrush}"
+                BorderBrush="{StaticResource PanelBorderBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="16,10,16,12">
+
+            <Grid x:Name="ControlBarRoot" RowSpacing="6" ColumnSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid x:Name="TimelineRow" Grid.Row="0" Grid.ColumnSpan="3" ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="TimelineLeftColumn" Width="48"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition x:Name="TimelineRightColumn" Width="48"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="CurrentTimeLabel"
+                               Grid.Column="0"
+                               Text="{x:Bind ViewModel.CurrentTimeText, Mode=OneWay}"
+                               Foreground="{StaticResource SubtleTextBrush}"
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"/>
+
+                    <controls:RoundThumbSlider x:Name="ProgressSliderControl"
+                            Grid.Column="1"
+                            Style="{StaticResource ProgressSliderStyle}"
+                            HorizontalAlignment="Stretch"
+                            Minimum="0"
+                            Maximum="{x:Bind ViewModel.Maximum, Mode=OneWay}"
+                            Value="{x:Bind ViewModel.Position, Mode=TwoWay}"
+                            VerticalAlignment="Center"
+                            PointerPressed="ProgressSlider_PointerPressed"
+                            PointerReleased="ProgressSlider_PointerReleased"
+                            ValueChanged="ProgressSlider_ValueChanged"/>
+
+                    <TextBlock x:Name="TotalTimeLabel"
+                               Grid.Column="2"
+                               Text="{x:Bind ViewModel.TotalTimeText, Mode=OneWay}"
+                               Foreground="{StaticResource SubtleTextBrush}"
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"/>
+                </Grid>
+
+                <controls:HandButton x:Name="BtnRepeatMode"
+                        Grid.Row="1" Grid.Column="0"
+                        Style="{StaticResource TransportButtonStyle}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.ToggleRepeatModeCommand}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.RepeatModeTooltip, Mode=OneWay}">
+                    <Grid Width="16" Height="16">
+                        <FontIcon Glyph="&#xE8EE;" FontSize="14"
+                                  Foreground="{StaticResource SubtleTextBrush}"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Visibility="{x:Bind ViewModel.IsRepeatOff, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+                        <FontIcon Glyph="&#xE8EE;" FontSize="14"
+                                  Foreground="{StaticResource AccentBrush}"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Visibility="{x:Bind ViewModel.IsRepeatAll, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+                        <FontIcon Glyph="&#xE8ED;" FontSize="14"
+                                  Foreground="{StaticResource AccentBrush}"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Visibility="{x:Bind ViewModel.IsRepeatOne, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+                    </Grid>
+                </controls:HandButton>
+
+                <StackPanel x:Name="UtilsBar"
+                            Grid.Row="1" Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="4"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Margin="0,0,0,0">
+                    <controls:HandButton x:Name="VolumeMuteButton"
+                            Style="{StaticResource VolumeButtonStyle}"
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.ToggleMuteCommand}">
+                        <Grid Width="16" Height="16">
+                            <FontIcon Glyph="&#xE767;" FontSize="14"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{x:Bind ViewModel.IsMuted, Mode=OneWay, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}"/>
+                            <FontIcon Glyph="&#xE74F;" FontSize="14"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{x:Bind ViewModel.IsMuted, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+                        </Grid>
+                    </controls:HandButton>
+                    <controls:RoundThumbSlider x:Name="VolumeSlider"
+                            Style="{StaticResource VolumeSliderStyle}"
+                            VerticalAlignment="Center"
+                            Minimum="0" Maximum="100"
+                            Value="{x:Bind ViewModel.VolumeSliderValue, Mode=TwoWay}"/>
+                    <controls:PlaybackRateSelector x:Name="PlaybackRateControl"
+                                                   Rates="{x:Bind ViewModel.PlaybackRateOptions, Mode=OneWay}"
+                                                   SelectedRate="{x:Bind ViewModel.SelectedPlaybackRate, Mode=TwoWay}"
+                                                   ToolTipService.ToolTip="Скорость воспроизведения"/>
+                    <controls:HandButton x:Name="BtnCc"
+                            Style="{StaticResource TransportButtonStyle}"
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.ToggleSubtitlesCommand}"
+                            Width="40">
+                        <Grid Width="16" Height="16">
+                            <TextBlock x:Name="BtnCcText" Text="CC" FontSize="11"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <FontIcon x:Name="BtnCcIcon" Glyph="&#xE8EA;" FontSize="12"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="Collapsed"/>
+                        </Grid>
+                    </controls:HandButton>
+                    <controls:HandButton x:Name="BtnVideoFit"
+                            Style="{StaticResource TransportButtonStyle}"
+                            VerticalAlignment="Center"
+                            ToolTipService.ToolTip="Размещение видео в окне"
+                            Visibility="{x:Bind ViewModel.IsVideoMode, Mode=OneWay, Converter={StaticResource BoolToVis}}">
+                        <FontIcon Glyph="&#xE8BC;" FontSize="14"/>
+                    </controls:HandButton>
+                    <controls:HandButton Style="{StaticResource TransportButtonStyle}"
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.ToggleFullscreenCommand}">
+                        <Grid Width="16" Height="16">
+                            <FontIcon Glyph="&#xE740;" FontSize="14"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{x:Bind ViewModel.IsFullscreen, Mode=OneWay, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}"/>
+                            <FontIcon Glyph="&#xE73F;" FontSize="14"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{x:Bind ViewModel.IsFullscreen, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+                        </Grid>
+                    </controls:HandButton>
+                    <controls:HandButton x:Name="BtnPlaylist"
+                            Style="{StaticResource TransportButtonStyle}"
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.TogglePlaylistCommand}"
+                            ToolTipService.ToolTip="Плейлист"
+                            Visibility="{x:Bind ViewModel.IsFullscreen, Mode=OneWay, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+                        <FontIcon Glyph="&#xE8FD;" FontSize="12"/>
+                    </controls:HandButton>
+                </StackPanel>
+
+                <StackPanel x:Name="TransportBar"
+                            Grid.Row="1" Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <controls:HandButton x:Name="BtnPrev"
+                            Style="{StaticResource TransportButtonStyle}"
+                            Command="{x:Bind ViewModel.PreviousCommand}"
+                            ToolTipService.ToolTip="Предыдущий (P)">
+                        <FontIcon Glyph="&#xE892;" FontSize="14"/>
+                    </controls:HandButton>
+                    <controls:HandButton x:Name="BtnSeekBack"
+                            Style="{StaticResource SkipButtonStyle}"
+                            Content="−10"
+                            Command="{x:Bind ViewModel.SeekBackward10Command}"
+                            ToolTipService.ToolTip="Назад 10 сек"/>
+                    <controls:HandButton x:Name="PlayButton"
+                            Style="{StaticResource PlayButtonStyle}"
+                            Command="{x:Bind ViewModel.PlayPauseCommand}"
+                            ToolTipService.ToolTip="Play / Pause">
+                        <Grid Width="18" Height="18">
+                            <FontIcon Glyph="&#xE768;" FontSize="16"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{x:Bind ViewModel.IsPlaying, Mode=OneWay, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}"/>
+                            <FontIcon Glyph="&#xE769;" FontSize="16"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{x:Bind ViewModel.IsPlaying, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+                        </Grid>
+                    </controls:HandButton>
+                    <controls:HandButton x:Name="BtnSeekFwd"
+                            Style="{StaticResource SkipButtonStyle}"
+                            Content="+10"
+                            Command="{x:Bind ViewModel.SeekForward10Command}"
+                            ToolTipService.ToolTip="Вперёд 10 сек"/>
+                    <controls:HandButton x:Name="BtnNext"
+                            Style="{StaticResource TransportButtonStyle}"
+                            Command="{x:Bind ViewModel.NextCommand}"
+                            ToolTipService.ToolTip="Следующий (N)">
+                        <FontIcon Glyph="&#xE893;" FontSize="14"/>
+                    </controls:HandButton>
+                </StackPanel>
+            </Grid>
+
+        </Border>
+
+    </helpers:AnimatedAppBackground>
+
+</Page>
+
+

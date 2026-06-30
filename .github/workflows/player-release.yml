@@ -1,0 +1,64 @@
+name: FPlayer Release
+
+on:
+  push:
+    tags:
+      - 'player-v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Read version
+        id: version
+        shell: pwsh
+        run: |
+          $propsContent = Get-Content -Path player/Directory.Build.props -Raw -Encoding UTF8
+          if ($propsContent -match '<VersionPrefix>\s*([^<]+)\s*</VersionPrefix>') {
+            $version = $matches[1].Trim()
+          } elseif ($propsContent -match '<Version>\s*([^<]+)\s*</Version>') {
+            $version = $matches[1].Trim()
+          } else {
+            throw 'Version not found in player/Directory.Build.props'
+          }
+          "value=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Publish
+        shell: pwsh
+        run: ./player/scripts/package-release.ps1 -Configuration Release
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: FPlayer ${{ steps.version.outputs.value }}
+          body: |
+            ## FPlayer ${{ steps.version.outputs.value }}
+
+            Портативная сборка для Windows x64 (автономная, .NET не требуется).
+
+            ### Скачать
+            - **ZIP:** `FPlayer-${{ steps.version.outputs.value }}-win-x64.zip` (во вложениях релиза)
+            - Распакуйте архив и запустите `MediaPlayer.exe`
+
+            ### Требования
+            - Windows 10 19041+ / Windows 11
+
+            ### Изменения
+            См. коммиты в репозитории с момента предыдущего тега `player-v*`.
+          files: |
+            player/artifacts/FPlayer-${{ steps.version.outputs.value }}-win-x64.zip
+          draft: false
+          prerelease: false
